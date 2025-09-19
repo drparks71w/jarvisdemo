@@ -15,11 +15,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from .views import image_view  # Import the new view
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from jarvisdot import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', image_view, name='home')
+    path('', views.map_view, name='map'),
+    path('map/', views.map_view, name='map'),
+    path('tools/', views.tools_page, name='tools'),
+    path('assetwise/', views.assetwise_view, name='assetwise'),
+    path('inspections/', include('inspections.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
+# Add this pattern to serve media files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

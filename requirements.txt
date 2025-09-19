@@ -6,3 +6,4 @@ dj-database-url
 Pillow
 django-storages
 python-dotenv
+folium
