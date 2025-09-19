@@ -175,3 +175,21 @@ body.sidebar-collapsed .sidebar nav a { justify-content: center; padding: 1rem; 
     background-color: rgba(0,0,0,0.4); z-index: 999; display: none;
 }
 .overlay.is-active { display: block; }
+
+.logout-button {
+    background-color: var(--cardinal-red); /* Set the default background to red */
+    border: none;
+    padding: 1rem 1.5rem;
+    color: var(--white);
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    display: block;
+}
+
+.logout-button:hover {
+    background-color: #a51f2d; /* A slightly darker red for the hover effect */
+}
