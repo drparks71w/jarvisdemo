@@ -18,5 +18,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from django.shortcuts import render
 
 
-def maintenance_view(request):
-    return render(request, 'maintenance.html', status=503)
+def image_view(request):
+    return render(request, 'images.html', status=200)
