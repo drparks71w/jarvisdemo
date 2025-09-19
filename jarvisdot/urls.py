@@ -16,13 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from .views import maintenance_view  # Import the new view
+from .views import image_view  # Import the new view
 
 urlpatterns = [
     # path('admin/', admin.site.urls), # Comment out the original URLs
 
     # This pattern will match all possible URL paths and route them
     # to the maintenance view.
-    re_path(r'^.*$', maintenance_view),
+    re_path(r'^.*$', image_view),
 ]
 
