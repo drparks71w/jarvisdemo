@@ -15,8 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
+from .views import image_view  # Import the new view
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls), # Comment out the original URLs
+
+    # This pattern will match all possible URL paths and route them
+    # to the maintenance view.
+    re_path(r'^.*$', image_view),
 ]
+
