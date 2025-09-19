@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}ODOT Bridge Inspections - Landing{% endblock %}
+
+{% block content %}
+<div class="search-container">
+    <input type="search" placeholder="Search for bridge or structure number...">
+    <button type="submit">Search</button>
+</div>
+
+<!-- This container will hold the map -->
+<div class="map-container" style="height: 85vh; width: 100%; margin-top: 2rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+    {{ map_html|safe }}
+</div>
+{% endblock %}
+

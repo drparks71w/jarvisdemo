@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Photo Gallery{% endblock %}
+
+{% block content %}
+<style>
+    .photo-gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    .photo-card {
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+    .photo-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    .photo-card-info {
+        padding: 1rem;
+    }
+</style>
+
+<h1>Photo Gallery</h1>
+<div class="photo-gallery-grid">
+    {% for photo in photos %}
+        <a href="{{ photo.photo_url }}" target="_blank" class="photo-card">
+            <img src="{{ photo.thumbnail_url|default:photo.photo_url }}" alt="Bridge Photo for SFN {{ photo.sfn }}">
+            <div class="photo-card-info">
+                <strong>SFN:</strong> {{ photo.sfn }}<br>
+                <strong>Inspection ID:</strong> {{ photo.inspection_id }}
+            </div>
+        </a>
+    {% empty %}
+        <p>No photos have been uploaded yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

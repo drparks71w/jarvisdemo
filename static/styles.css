@@ -1,0 +1,177 @@
+:root {
+    /* Primary ODOT Colors */
+    --zephyr-green: #009969;
+    --zephyr-green-accessible: #00855B;
+    --buckeye-blue: #0E3F75;
+    --cardinal-red: #C12637;
+    --pawpaw-green: #BBD36F;
+    --white: #FFFFFF;
+
+    /* Layout & Typography */
+    --font-primary: 'Source Sans 3', sans-serif;
+    --font-secondary: 'Source Serif 4', serif;
+    --text-color: #212121;
+    --sidebar-width: 250px;
+    --sidebar-collapsed-width: 60px;
+}
+
+body {
+    font-family: var(--font-primary), serif;
+    font-weight: 400;
+    margin: 0;
+    color: var(--text-color);
+    display: flex;
+    line-height: 1.6;
+    /* Apply background to the entire body */
+    background: url("bg.png") no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed; /* Keeps the background stationary on scroll */
+    overflow: hidden; /* Prevent scrolling on the body */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    text-align: left;
+    margin: 0 0 1rem 0;
+}
+
+/* Sidebar Styles with Pawpaw Green */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: var(--zephyr-green); /* Changed to Zephyr Green */
+    color: var(--white); /* Changed text color for contrast */
+    transition: width 0.3s ease, transform 0.3s ease;
+    overflow-x: hidden;
+    white-space: nowrap;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.sidebar nav ul { list-style: none; padding: 0; margin: 0; }
+
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    color: var(--white); /* Changed text color */
+    text-decoration: none;
+    font-weight: 600;
+    border-left: 4px solid transparent;
+    transition: background-color 0.2s;
+}
+
+.sidebar nav a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Subtle hover effect */
+}
+
+.sidebar nav a .link-text {
+    display: inline-block;
+    margin-left: 1rem;
+}
+
+#desktop-toggle-btn {
+    background: none; border: none;
+    color: var(--white); /* Changed for contrast */
+    font-size: 1.5rem; cursor: pointer;
+    position: absolute; top: 1.5rem; right: 1rem;
+}
+
+/* Main Content with Background Image */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem; /* Adjusted padding */
+    transition: margin-left 0.3s ease;
+    margin-left: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; <-- Removed to align search to the left */
+    justify-content: flex-start; /* Align content to the top */
+    min-height: 100vh;
+    /* padding-top: 35vh; <-- Removed to move search to the top */
+}
+
+body.sidebar-collapsed .main-content { margin-left: var(--sidebar-collapsed-width); }
+
+/* Search Bar Container */
+.search-container {
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* Slightly darker shadow for visibility */
+    background-color: var(--white); /* Ensure search bar has a solid background */
+    border-radius: 4px;
+}
+
+.search-container input[type="search"] {
+    flex-grow: 1; padding: 1rem;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    font-family: var(--font-primary), serif; font-size: 1rem; font-weight: 400;
+    background: transparent;
+}
+
+.search-container button {
+    padding: 1rem 2rem; border: none;
+    background-color: var(--zephyr-green-accessible);
+    color: var(--white);
+    font-family: var(--font-primary), serif; font-size: 1rem; font-weight: 700;
+    cursor: pointer; border-radius: 0 4px 4px 0;
+    transition: background-color 0.2s;
+}
+
+/* === MOBILE OPTIMIZATION === */
+@media (max-width: 800px) {
+    #desktop-toggle-btn { display: none; }
+
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: fixed;
+        top: 0; left: 0; width: 100%;
+        padding: 0.5rem 1rem;
+        background-color: var(--zephyr-green); /* Match sidebar color */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 900;
+        color: var(--white); /* Match text color */
+    }
+
+    .mobile-header h2 { font-size: 1.2rem; margin: 0; }
+
+    #mobile-toggle-btn {
+        background: none; border: none;
+        color: var(--white); /* Match text color */
+        font-size: 2rem; cursor: pointer;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 6rem 1.5rem 2rem 1.5rem;
+    }
+}
+
+/* Other existing mobile styles remain unchanged */
+body.sidebar-collapsed .sidebar { width: var(--sidebar-collapsed-width); }
+body.sidebar-collapsed .sidebar .link-text,
+body.sidebar-collapsed .sidebar .sidebar-header { display: none; }
+body.sidebar-collapsed .sidebar nav a { justify-content: center; padding: 1rem; }
+.sidebar.is-open { transform: translateX(0); }
+.overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.4); z-index: 999; display: none;
+}
+.overlay.is-active { display: block; }

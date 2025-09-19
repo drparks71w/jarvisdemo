@@ -15,30 +15,15 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-import folium
+from django.urls import path
+from . import views
 
-@login_required
-def map_view(request):
-    # Create a Map instance centered on Ohio
-    m = folium.Map(location=[40.3, -82.9], zoom_start=7)
-    # Get the HTML representation of the map
-    map_html = m._repr_html_()
+app_name = 'inspections'
 
-    context = {
-        'map_html': map_html,
-    }
-    return render(request, 'map.html', context)
-
-@login_required
-def tools_page(request):
-    return render(request, 'tools.html')
-
-@login_required
-def assetwise_view(request):
-    """
-    Renders the Assetwise tool within an iframe.
-    """
-    return render(request, 'assetwise.html')
+urlpatterns = [
+    # This will be the view for /inspections/
+    path('', views.inspection_list, name='inspection_list'),
+    # This will be the view for /inspections/photos/
+    path('photos/', views.photo_gallery, name='photo_gallery'),
+]
 

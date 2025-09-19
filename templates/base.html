@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}ODOT Jarvis{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+
+    <header class="mobile-header">
+        <a href="{% url 'map' %}" style="text-decoration: none; color: inherit;">
+            <h2>Jarvis</h2>
+        </a>
+        <button id="mobile-toggle-btn">☰</button>
+    </header>
+
+    <aside class="sidebar">
+        <a href="{% url 'map' %}" style="text-decoration: none; color: inherit;">
+            <div class="sidebar-header">
+                <span class="link-text"><strong>Jarvis</strong></span>
+            </div>
+        </a>
+        <button id="desktop-toggle-btn">☰</button>
+        <nav>
+            <ul>
+                <li><a href="{% url 'assetwise' %}">
+                    <span class="link-text">Assetwise</span>
+                </a></li>
+                <li><a href="{% url 'inspections:inspection_list' %}">
+                    <span class="link-text">Inspections</span>
+                </a></li>
+                <li><a href="{% url 'tools' %}">
+                    <span class="link-text">Tools</span>
+                </a></li>
+                <li><a href="{% url 'inspections:photo_gallery' %}">
+                    <span class="link-text">Photos</span>
+                </a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">
+                    <span class="link-text">Logout</span>
+                </a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="overlay"></div>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        const desktopToggleBtn = document.getElementById('desktop-toggle-btn');
+        const mobileToggleBtn = document.getElementById('mobile-toggle-btn');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.overlay');
+        const body = document.body;
+
+        if (desktopToggleBtn) {
+            desktopToggleBtn.addEventListener('click', () => {
+                body.classList.toggle('sidebar-collapsed');
+            });
+        }
+
+        function toggleMobileNav() {
+            sidebar.classList.toggle('is-open');
+            overlay.classList.toggle('is-active');
+        }
+
+        if (mobileToggleBtn) {
+            mobileToggleBtn.addEventListener('click', toggleMobileNav);
+        }
+        if (overlay) {
+            overlay.addEventListener('click', toggleMobileNav);
+        }
+    </script>
+
+</body>
+</html>
