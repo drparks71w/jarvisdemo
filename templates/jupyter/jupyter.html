@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Jupyter Notebooks{% endblock %}
+
+{% block content %}
+{# This div will act as a container for the iframe. #}
+<div style="width: 100%; height: 85vh; padding: 0; margin: 0;">
+    <iframe
+        src="{{ jupyter_url }}"
+        style="width: 100%; height: 100%; border: none;"
+        title="JupyterLab"
+        referrerpolicy="no-referrer"
+    ></iframe>
+</div>
+{% endblock %}

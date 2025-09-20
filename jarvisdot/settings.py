@@ -28,6 +28,9 @@ load_dotenv(BASE_DIR / '.env')
 # Load the SECRET_KEY from an environment variable
 SECRET_KEY = os.environ.get('SECRET_KEY', default='your-default-secret-key')
 
+# Renamed to reflect it's for the Google AI / Gemini API
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 # Set DEBUG to False in production
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
@@ -48,13 +51,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'whitenoise.runserver_nostatic', # Add this
-    'inspections', # Add our new app
+    'whitenoise.runserver_nostatic',
+    'inspections.apps.InspectionsConfig',
+    'jupyter.apps.JupyterConfig',
+    'jarvis_chat',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # Add this right after SecurityMiddleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -68,7 +73,7 @@ ROOT_URLCONF = 'jarvisdot.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

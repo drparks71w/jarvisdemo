@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Jupyter Server Not Found{% endblock %}
+
+{% block content %}
+<h2>Could not connect to Jupyter server.</h2>
+<p>Please make sure the Jupyter server is running. You can start it with <code>honcho start</code> from the project root.</p>
+<p>It may take a few moments for the server to start up. Please try refreshing this page in a bit.</p>
+{% endblock %}

@@ -7,3 +7,9 @@ Pillow
 django-storages
 python-dotenv
 folium
+jupyterlab
+notebook
+civilpy
+honcho
+google-generativeai
+Markdown

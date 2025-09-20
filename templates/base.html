@@ -1,90 +1,57 @@
-{% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}ODOT Jarvis{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:wght@400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Jarvis{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-
-    <header class="mobile-header">
-        <a href="{% url 'map' %}" style="text-decoration: none; color: inherit;">
-            <h2>Jarvis</h2>
-        </a>
-        <button id="mobile-toggle-btn">☰</button>
-    </header>
-
-    <aside class="sidebar">
-        <a href="{% url 'map' %}" style="text-decoration: none; color: inherit;">
-            <div class="sidebar-header">
-                <span class="link-text"><strong>Jarvis</strong></span>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'map' %}">CivilPy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'map' %}">Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'jupyter:notebook_view' %}">Jupyter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'jarvis_chat:jarvis' %}">Jarvis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'assetwise' %}">Assetwise</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inspections:photo_gallery' %}">Photos</a>
+                    </li>
+                </ul>
             </div>
-        </a>
-        <button id="desktop-toggle-btn">☰</button>
-        <nav>
-            <ul>
-                <li><a href="{% url 'assetwise' %}">
-                    <span class="link-text">Assetwise</span>
-                </a></li>
-                <li><a href="{% url 'inspections:inspection_list' %}">
-                    <span class="link-text">Inspections</span>
-                </a></li>
-                <li><a href="{% url 'tools' %}">
-                    <span class="link-text">Tools</span>
-                </a></li>
-                <li><a href="{% url 'inspections:photo_gallery' %}">
-                    <span class="link-text">Photos</span>
-                </a></li>
+            <div class="d-flex">
                 {% if user.is_authenticated %}
-                <li>
-                    <form action="{% url 'logout' %}" method="post" style="margin: 0;">
+                    <span class="navbar-text me-2">Welcome, {{ user.username }}</span>
+                    <form action="{% url 'logout' %}" method="post" class="d-inline">
                         {% csrf_token %}
-                        <button type="submit" class="logout-button">
-                            <span class="link-text">Logout</span>
-                        </button>
+                        <button type="submit" class="btn btn-outline-light">Logout</button>
                     </form>
-                </li>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-light">Login</a>
                 {% endif %}
-            </ul>
-        </nav>
-    </aside>
+            </div>
+        </div>
+    </nav>
 
-    <div class="overlay"></div>
-
-    <main class="main-content">
+    <main class="container mt-4">
         {% block content %}{% endblock %}
     </main>
 
-    <script>
-        const desktopToggleBtn = document.getElementById('desktop-toggle-btn');
-        const mobileToggleBtn = document.getElementById('mobile-toggle-btn');
-        const sidebar = document.querySelector('.sidebar');
-        const overlay = document.querySelector('.overlay');
-        const body = document.body;
-
-        if (desktopToggleBtn) {
-            desktopToggleBtn.addEventListener('click', () => {
-                body.classList.toggle('sidebar-collapsed');
-            });
-        }
-
-        function toggleMobileNav() {
-            sidebar.classList.toggle('is-open');
-            overlay.classList.toggle('is-active');
-        }
-
-        if (mobileToggleBtn) {
-            mobileToggleBtn.addEventListener('click', toggleMobileNav);
-        }
-        if (overlay) {
-            overlay.addEventListener('click', toggleMobileNav);
-        }
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

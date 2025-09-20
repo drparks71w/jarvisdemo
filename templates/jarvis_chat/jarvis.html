@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Jarvis{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Jarvis Chat</h1>
+    <div id="chat-window" class="border p-3" style="height: 400px; overflow-y: scroll;">
+        <!-- Chat messages will appear here -->
+    </div>
+    <div class="input-group mt-3">
+        <input type="text" id="chat-input" class="form-control" placeholder="Ask Jarvis...">
+        <button id="send-button" class="btn btn-primary">Send</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatWindow = document.getElementById('chat-window');
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-button');
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    async function sendMessage() {
+        const message = chatInput.value;
+        if (!message) return;
+
+        appendMessage('You', message);
+        chatInput.value = '';
+
+        try {
+            const response = await fetch("{% url 'jarvis_chat:ask_notebook' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({ message: message }),
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                appendMessage('Jarvis', `Error: ${data.error}`);
+            } else {
+                appendMessage('Jarvis', data.reply);
+            }
+        } catch (error) {
+            appendMessage('Jarvis', 'An error occurred while connecting to the model.');
+            console.error('Error:', error);
+        }
+    }
+
+    function appendMessage(sender, text) {
+        const messageElement = document.createElement('div');
+        messageElement.innerHTML = `<strong>${sender}:</strong> ${text}`;
+        chatWindow.appendChild(messageElement);
+        chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll to bottom
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+});
+</script>
+{% endblock %}

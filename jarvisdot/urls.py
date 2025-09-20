@@ -25,11 +25,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.map_view, name='map'),
     path('map/', views.map_view, name='map'),
-    path('tools/', views.tools_page, name='tools'),
+    path('jupyter/', include('jupyter.urls')),
     path('assetwise/', views.assetwise_view, name='assetwise'),
+    path('jarvis/', include('jarvis_chat.urls')),
     path('inspections/', include('inspections.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
+
 
 # Add this pattern to serve media files during development
 if settings.DEBUG:
